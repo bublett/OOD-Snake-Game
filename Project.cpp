@@ -1,13 +1,17 @@
 #include <iostream>
 #include "MacUILib.h"
 #include "objPos.h"
+#include "GameMechs.h"
 
 
 using namespace std;
 
 #define DELAY_CONST 100000
 
-bool exitFlag;
+//bool exitFlag;
+
+GameMechs *Snake;
+
 
 void Initialize(void);
 void GetInput(void);
@@ -23,7 +27,7 @@ int main(void)
 
     Initialize();
 
-    while(exitFlag == false)  
+    while(Snake->getExitFlagStatus() == false)  
     {
         GetInput();
         RunLogic();
@@ -41,22 +45,73 @@ void Initialize(void)
     MacUILib_init();
     MacUILib_clearScreen();
 
-    exitFlag = false;
+    Snake = new GameMechs();
+
+    Snake->setExitFalse();
 }
 
 void GetInput(void)
 {
-   
+    if(MacUILib_hasChar())
+    {
+        Snake->setInput(MacUILib_getChar());
+    }
 }
 
 void RunLogic(void)
 {
-    
+    if(Snake->getInput() != 0)  // if not null character
+    {
+        switch(Snake->getInput())
+        {                      
+            case '/':  // exit
+                Snake->setExitTrue();
+                break;
+            case 'w':
+              
+                break;
+            // Add more key processing here
+            case 'a':
+          
+                break;
+            // Add more key processing here
+            case 's':
+
+                break;
+            // Add more key processing here
+            case 'd':
+
+                break;
+            default:
+                break;
+        }
+        Snake->clearInput();
+    }
+
 }
 
 void DrawScreen(void)
 {
-    MacUILib_clearScreen();    
+    MacUILib_clearScreen();
+
+    int i,j;    
+
+    for(j=0;j<10;j++)
+    {
+        for(i=0;i<20;i++)
+        {
+            if(j==0 || j==9 || i==0 || i==19)
+            {
+                MacUILib_printf("#");
+            }
+            
+            else
+            {
+                MacUILib_printf(" ");
+            }
+        }
+        MacUILib_printf("\n");
+    }
 
 }
 
