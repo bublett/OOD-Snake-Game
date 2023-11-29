@@ -5,8 +5,6 @@
 #include "Player.h"
 
 
-
-
 using namespace std;
 
 
@@ -20,17 +18,12 @@ GameMechs *Snake;
 Player *Snake_player;
 
 
-
-
 void Initialize(void);
 void GetInput(void);
 void RunLogic(void);
 void DrawScreen(void);
 void LoopDelay(void);
 void CleanUp(void);
-
-
-
 
 
 
@@ -51,7 +44,6 @@ int main(void)
 
 
     CleanUp();
-
 
 }
 
@@ -89,7 +81,6 @@ void RunLogic(void)
     Snake_player->movePlayer(); // Call the method to update player position on screen
    
 
-
 }
 
 
@@ -104,9 +95,6 @@ void DrawScreen(void)
 
     objPos playerPos;
     Snake_player->getPlayerPos(playerPos);     //Gets player position
-
-
-
 
 
 
@@ -160,6 +148,6 @@ void CleanUp(void)
     //Free memory here for Snake and Snake_player
 
 
-   
 }
+
 

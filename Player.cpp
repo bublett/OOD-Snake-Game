@@ -33,6 +33,7 @@ void Player::updatePlayerDir()
 {
     // PPA3 input processing logic    
 
+
     switch(mainGameMechsRef->getInput())    // Get input from the GameMechs class
     {
         case 'w':
@@ -134,5 +135,6 @@ void Player::movePlayer()
 
 
 }
+
 
 
