@@ -97,6 +97,14 @@ void RunLogic(void)
     //Snake->clearInput();
 
 
+    /** Collision Detection Here:
+    if()
+    {
+        Snake->setLoseFlag();
+    }
+    **/
+
+
 }
 
 
@@ -150,9 +158,25 @@ void DrawScreen(void)
        
     }
 
+    MacUILib_printf("Score: %d\n", Snake->getScore());
+
+    MacUILib_printf("======== DEBUG MESSAGE ========\n");
+
+    MacUILib_printf("Board Size: %d X %d\n", Snake->getBoardSizeX(),Snake->getBoardSizeY());
 
     MacUILib_printf("Player Input: %c\n", Snake->getInput());    // Debug msg for current input keys
-    //MacUILib_printf("Score %d", Snake->getScore());
+
+    //MacUILib_printf("Player Position: %d, %d\n", Snake_player->playerPos().x, Snake_player->playerPos().y); //Prints current player position
+
+    /** Uncomment After Collision Detection Implementation
+    if(Snake->getLoseFlagStatus() == true || Snake->getExitFlagStatus() == true)
+    {
+        MacUILib_printf("Game Ended. You Scored: %d", Snake->getScore());
+    }
+
+    **/
+
+
 
 
 }
