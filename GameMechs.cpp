@@ -14,8 +14,8 @@ GameMechs::GameMechs()
     exitFlag = false;
     loseFlag = false;
 
-    boardSizeX = 20;   //Default border size
-    boardSizeY = 10;
+    boardSizeX = 30;   //Default border size
+    boardSizeY = 15;
 
     srand(time(NULL));
     foodPos.setObjPos(-1, -1, 'o');    //Initialize foodPos outside of the game board (not displayed)
@@ -142,6 +142,3 @@ void GameMechs::getFoodPos(objPos &returnPos)
 {
     returnPos.setObjPos(foodPos.x, foodPos.y, foodPos.symbol);
 }
-
-
-

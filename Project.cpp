@@ -177,6 +177,3 @@ void CleanUp(void)
     delete Snake_player;
    
 }
-
-
-
