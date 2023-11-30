@@ -47,6 +47,7 @@ class GameMechs
         bool getLoseFlagStatus();
         void setExitTrue();
         void setExitFalse();
+        void setLoseFlag();
 
 
         int getScore();
