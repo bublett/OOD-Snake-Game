@@ -98,13 +98,6 @@ void RunLogic(void)
     //Snake->clearInput();
 
 
-    /** Collision Detection Here:
-    if()
-    {
-        Snake->setLoseFlag();
-    }
-    **/
-
 }
 
 
@@ -153,19 +146,27 @@ void DrawScreen(void)
 
     MacUILib_printf("Score: %d\n", Snake->getScore());
 
+
     MacUILib_printf("======== DEBUG MESSAGE ========\n");
+
 
     MacUILib_printf("Board Size: %d X %d\n", Snake->getBoardSizeX(),Snake->getBoardSizeY());
 
+
     MacUILib_printf("Player Input: %c\n", Snake->getInput());    // Debug msg for current input keys
+
 
     MacUILib_printf("Player Position: %d, %d\n", playerPos.x, playerPos.y); //Prints current player position
 
+
     MacUILib_printf("Food Input: %d, %d\n", foodPos.x, foodPos.y);  //Prints current Food position
 
-    MacUILib_printf("To Clear Food & Generate New Food, Press: 'c'\n"); //Debug message to clear and generate new food 
+
+    MacUILib_printf("To Clear Food & Generate New Food, Press: 'c'\n"); //Debug message to clear and generate new food
+
 
     MacUILib_printf("Exit, Press: `\n");
+
 
     /** Uncomment After Collision Detection Implementation
     if(Snake->getLoseFlagStatus() == true || Snake->getExitFlagStatus() == true)
@@ -173,7 +174,10 @@ void DrawScreen(void)
         MacUILib_printf("Game Ended. You Scored: %d", Snake->getScore());
     }
 
+
     **/
+
+
 
 }
 
@@ -197,5 +201,6 @@ void CleanUp(void)
     delete Snake_player;
    
 }
+
 
 

@@ -79,6 +79,16 @@ void GameMechs::setExitFalse()
     exitFlag = 0;
 }
 
+bool GameMechs::getLoseFlagStatus()
+{
+    return loseFlag;
+}
+
+void GameMechs::setLoseFlag()
+{
+    loseFlag = true;
+}
+
 
 void GameMechs::setInput(char this_input)
 {
@@ -127,6 +137,3 @@ void GameMechs::getFoodPos(objPos &returnPos)
 {
     returnPos.setObjPos(foodPos.x, foodPos.y, foodPos.symbol);
 }
-
-
-
