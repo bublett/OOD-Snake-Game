@@ -8,7 +8,7 @@ Player::Player(GameMechs* thisGMRef)
 
 
     // more actions to be included
-    playerPos.setObjPos(9, 5, '*');     //Sets initial player position on game board
+    playerPos.setObjPos(14, 7, '*');     //Sets initial player position on game board
    
 }
 

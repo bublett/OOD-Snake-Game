@@ -1,9 +1,6 @@
 #include "GameMechs.h"
 
 
-// Think about where to seed the RNG.
-
-
 GameMechs::GameMechs()
 {
 
@@ -14,8 +11,8 @@ GameMechs::GameMechs()
     exitFlag = false;
     loseFlag = false;
 
-    boardSizeX = 20;   //Default border size
-    boardSizeY = 10;
+    boardSizeX = 30;   //Default border size
+    boardSizeY = 15;
 
     srand(time(NULL));
     foodPos.setObjPos(-1, -1, 'o');    //Initialize foodPos outside of the game board (not displayed)
@@ -110,29 +107,17 @@ void GameMechs::incrementScore()
 void GameMechs::generateFood(objPos blockOff)
 {
     // Generate random x and y coord, and make sure they are NOT boarder or blockOff pos
-
-
-    // Check x and y against 0 and boardSizeX / Y
-
-
-    // Remeber, in objPos class you habve an isPosEqual() method. Use this instead of comparing
-    // element by element
-
-
+    
     int random_x, random_y;
-
 
     do
     {
-        random_x = (rand() % (boardSizeX-2)) + 1;      
-        random_y = (rand() % (boardSizeY-2)) + 1;
+        random_x = (rand() % (boardSizeX - 2)) + 1;     //generate random x-coord within boarder
+        random_y = (rand() % (boardSizeY - 2)) + 1;     //generate random y-coord within boarder
 
+    } while (foodPos.isPosEqual(&blockOff));
 
-    } while(foodPos.isPosEqual(&blockOff));
-
-
-    foodPos.setObjPos(random_x, random_y, 'o');
-
+    foodPos.setObjPos(random_x, random_y, 'o');     //Sets foodPos based on random coordinates 
 
 }
 
