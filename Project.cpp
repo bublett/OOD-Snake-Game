@@ -5,17 +5,18 @@
 #include "Player.h"
 
 
+
 using namespace std;
 
 
 #define DELAY_CONST 100000
 
 
-//bool exitFlag;
-
 
 GameMechs *Snake;
 Player *Snake_player;
+
+
 
 
 void Initialize(void);
@@ -24,6 +25,7 @@ void RunLogic(void);
 void DrawScreen(void);
 void LoopDelay(void);
 void CleanUp(void);
+
 
 
 
@@ -45,6 +47,7 @@ int main(void)
 
     CleanUp();
 
+
 }
 
 
@@ -60,13 +63,24 @@ void Initialize(void)
     Snake_player = new Player(Snake);  // Create an instance of player class
 
 
-    Snake->setExitFalse();
+    // Think about when to generate new food...
+
+
+    //Think about whether you want to set up a debug key to call the food generation
+    //routine for verifictation
+
+
+    // Remeber, generateFood() requires player reference,
+    //You will need to provide it AFTER player object instantioated
+
+
+    //Snake->generateFood();
 }
 
 
 void GetInput(void)
 {
-    if(MacUILib_hasChar())
+    if (MacUILib_hasChar())
     {
         Snake->setInput(MacUILib_getChar());
     }
@@ -80,6 +94,8 @@ void RunLogic(void)
     Snake_player->updatePlayerDir(); // Call the method to update player direction based on input
     Snake_player->movePlayer(); // Call the method to update player position on screen
    
+    //Snake->clearInput();
+
 
 }
 
@@ -89,37 +105,46 @@ void DrawScreen(void)
     MacUILib_clearScreen();
 
 
-    int i,j;  
-    char game_board[10][20];    //Initializes Game Board size
-
-
     objPos playerPos;
     Snake_player->getPlayerPos(playerPos);     //Gets player position
 
 
+    // Snake->generateFood(playerPos);
 
-    for(j=0;j<10;j++)
+
+    // objPos foodPos;
+    // Snake->getFoodPos(foodPos);
+
+
+
+
+    for(int j=0; j<Snake->getBoardSizeY(); j++)
     {
-        for(i=0;i<20;i++)
+        for(int i=0;i<Snake->getBoardSizeX();i++)
         {
-            if(j==0 || j==9 || i==0 || i==19)   // Checks if on border
+            if(j==0 || j==Snake->getBoardSizeY()-1 || i==0 || i==Snake->getBoardSizeX()-1)   // Checks if on border
             {
-                game_board[j][i] = '#';
+                MacUILib_printf("#");
             }
            
+            else if (j == playerPos.y && i == playerPos.x)
+            {
+                MacUILib_printf("%c", playerPos.symbol);    // Print player symbol
+            }
+
+
+            // else if (j == foodPos.y && i == foodPos.x)
+            // {
+            //     MacUILib_printf("%c", foodPos.symbol);
+            // }
+
+
             else                                // Check if not on border
             {
-                game_board[j][i] = ' ';
+                MacUILib_printf(" ");
             }
 
 
-            if (j == playerPos.y && i == playerPos.x)
-            {
-                game_board[j][i] = playerPos.symbol;    
-            }
-
-
-            MacUILib_printf("%c", game_board[j][i]);    //Prints game board with player symbol
         }
         MacUILib_printf("\n");
        
@@ -127,6 +152,7 @@ void DrawScreen(void)
 
 
     MacUILib_printf("Player Input: %c\n", Snake->getInput());    // Debug msg for current input keys
+    //MacUILib_printf("Score %d", Snake->getScore());
 
 
 }
@@ -139,15 +165,18 @@ void LoopDelay(void)
 
 
 
-
 void CleanUp(void)
 {
     MacUILib_clearScreen();    
  
     MacUILib_uninit();
-    //Free memory here for Snake and Snake_player
 
 
+    //Remove Heap instances
+    delete Snake;
+    delete Snake_player;
+   
 }
+
 
 

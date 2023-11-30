@@ -36,6 +36,12 @@ void Player::updatePlayerDir()
 
     switch(mainGameMechsRef->getInput())    // Get input from the GameMechs class
     {
+        case '`':
+            myDir = STOP;
+            mainGameMechsRef->setExitTrue();    // Exit
+            break;
+
+
         case 'w':
             if(myDir != DOWN)
             {
@@ -66,8 +72,7 @@ void Player::updatePlayerDir()
                 myDir = RIGHT;
             }
             break;
-
-
+                        // Need to add Speed Up and DOWN Somehow
         default:
             break;
     }
@@ -135,6 +140,7 @@ void Player::movePlayer()
 
 
 }
+
 
 
 
