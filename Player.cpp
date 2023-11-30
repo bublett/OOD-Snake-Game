@@ -23,7 +23,6 @@ void Player::getPlayerPos(objPos &returnPos)
 {
     returnPos.setObjPos(playerPos.x, playerPos.y, playerPos.symbol);    // Get player pos, and returns pos of my own player back to caller
 
-
     // return the reference to the playerPos arrray list
  
 }
@@ -76,15 +75,12 @@ void Player::updatePlayerDir()
         default:
             break;
     }
-
-
 }
 
 
 void Player::movePlayer()
 {
     // PPA3 Finite State Machine logic
-
 
     //Update Player direction/location
     switch(myDir)
@@ -137,7 +133,6 @@ void Player::movePlayer()
     {
         playerPos.x = 1;
     }
-
 
 }
 
