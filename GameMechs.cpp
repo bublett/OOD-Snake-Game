@@ -7,19 +7,15 @@
 GameMechs::GameMechs()
 {
 
-
     clearInput();
-
 
     input = 0;
     score = 0;
     exitFlag = false;
     loseFlag = false;
 
-
     boardSizeX = 20;   //Default border size
     boardSizeY = 10;
-
 
     srand(time(NULL));
     foodPos.setObjPos(-1, -1, 'o');    //Initialize foodPos outside of the game board (not displayed)
@@ -30,16 +26,13 @@ GameMechs::GameMechs(int boardX, int boardY)
 {
     clearInput();
 
-
     input = 0;
     score = 0;
     exitFlag = false;
     loseFlag = false;
 
-
     boardX = boardSizeX;
     boardY = boardSizeY;
-
 
     srand(time(NULL));    
     foodPos.setObjPos(-1, -1, 'o');
@@ -47,7 +40,10 @@ GameMechs::GameMechs(int boardX, int boardY)
 
 
 // do you need a destructor?
-
+GameMechs::~GameMechs()
+{
+    //Delete heap memebers
+}
 
 
 
