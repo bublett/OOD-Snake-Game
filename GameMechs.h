@@ -63,7 +63,7 @@ class GameMechs
         int getBoardSizeY();
 
 
-        void generateFood(objPos blockOff);
+        void generateFood(objPos blockOff); //"You need to upgrade this somehow..." - Scott
         void getFoodPos(objPos &returnPos);
 
 

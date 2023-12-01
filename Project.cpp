@@ -3,6 +3,7 @@
 #include "objPos.h"
 #include "GameMechs.h"
 #include "Player.h"
+#include "objPosArrayList.h"
 
 
 
@@ -62,8 +63,10 @@ void Initialize(void)
     Snake = new GameMechs();
     Snake_player = new Player(Snake);  // Create an instance of player class
 
-    objPos tempPos; 
-    Snake_player->getPlayerPos(tempPos);    //Creates a temp position for player
+    
+    //"This is a temporary setup so that I dont have to touch generateItem yet" - Scott
+    //"You need to do this yourself" - Scott
+    objPos tempPos{-2,-2, 'o'}; 
     Snake->generateFood(tempPos);           // Generates initial Food using temp position
     
 }
@@ -80,9 +83,16 @@ void GetInput(void)
     if (Snake->getInput() == 'c')
     {
         Snake->clearInput(); // Clear current food
-        objPos tempPlayerPos;
-        Snake_player->getPlayerPos(tempPlayerPos);
-        Snake->generateFood(tempPlayerPos); // Generate new food
+        objPosArrayList* tempPlayerPosList = Snake_player->getPlayerPos();
+
+        
+        if(tempPlayerPosList->getSize()>0) // Check if the player position list is not empty
+        {
+            objPos tempPlayerPos;
+            tempPlayerPosList->getHeadElement(tempPlayerPos);
+            Snake->generateFood(tempPlayerPos); // Generate new food
+        }
+        
     }
 
 }
@@ -105,10 +115,10 @@ void DrawScreen(void)
 {
     MacUILib_clearScreen();
 
+    bool drawn;
 
-    objPos playerPos;
-    Snake_player->getPlayerPos(playerPos);     //Gets player position
-
+    objPosArrayList* playerBody = Snake_player->getPlayerPos();
+    objPos tempBody;
 
     objPos foodPos;
     Snake->getFoodPos(foodPos);     // Gets food position
@@ -118,14 +128,23 @@ void DrawScreen(void)
     {
         for(int i=0;i<Snake->getBoardSizeX();i++)
         {
+            drawn = false; //To prevent drawing anything at the players position
+            for(int k=0; k<playerBody->getSize();k++) //Iterate through every element in the player body list
+            {
+                playerBody->getElement(tempBody,k);
+                if(tempBody.x == i && tempBody.y == j)
+                {
+                    MacUILib_printf("%c", tempBody.symbol);
+                    drawn = true;
+                    break;
+                }
+            }
+
+            if(drawn) continue; //If player body was drawn, don't draw anything else in the same iteration
+
             if(j==0 || j==Snake->getBoardSizeY()-1 || i==0 || i==Snake->getBoardSizeX()-1)   // Checks if on border
             {
                 MacUILib_printf("#");
-            }
-           
-            else if (j == playerPos.y && i == playerPos.x)
-            {
-                MacUILib_printf("%c", playerPos.symbol);    // Print player symbol
             }
 
             else if (j == foodPos.y && i == foodPos.x)  // Print food symbol
@@ -156,10 +175,15 @@ void DrawScreen(void)
     MacUILib_printf("Player Input: %c\n", Snake->getInput());    // Debug msg for current input keys
 
 
-    MacUILib_printf("Player Position: %d, %d\n", playerPos.x, playerPos.y); //Prints current player position
+    MacUILib_printf("Player Position:\n");
+    for(int l = 0; l<playerBody->getSize();l++)
+    {
+        playerBody->getElement(tempBody,l);
+        MacUILib_printf("<%d,%d> ", tempBody.x,tempBody.y);
+    }
 
 
-    MacUILib_printf("Food Input: %d, %d\n", foodPos.x, foodPos.y);  //Prints current Food position
+    MacUILib_printf("\nFood Input: %d, %d\n", foodPos.x, foodPos.y);  //Prints current Food position
 
 
     MacUILib_printf("To Clear Food & Generate New Food, Press: 'c'\n"); //Debug message to clear and generate new food
