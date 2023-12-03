@@ -2,6 +2,7 @@
 
 
 
+
 Player::Player(GameMechs* thisGMRef)
 {
 
@@ -29,12 +30,10 @@ Player::~Player()
 
 
 
-
 objPosArrayList* Player::getPlayerPos()
 {
     return playerPosList; //Return the reference of the player pos list
 }
-
 
 
 
@@ -88,13 +87,10 @@ void Player::updatePlayerDir()
 
 
 
-
 void Player::movePlayer()
 {
 
-
     //Update Player direction/location
-
 
     objPos currHead; // Holds info on current head
     playerPosList->getHeadElement(currHead);
@@ -105,17 +101,21 @@ void Player::movePlayer()
         default:
             break;
 
+
         case LEFT:
             currHead.x--;
             break;
+
 
         case RIGHT:
             currHead.x++;
             break;
 
+
         case UP:
             currHead.y--;
             break;
+
 
         case DOWN:
             currHead.y++;

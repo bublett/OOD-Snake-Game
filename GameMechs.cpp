@@ -144,13 +144,16 @@ void GameMechs::generateFood(objPosArrayList &playerBody)
 
     } while (overlap);
 
+
     foodPos.setObjPos(random_x, random_y, 'o');     //Sets foodPos based on random coordinates
 
 
 }
 
 
+
 void GameMechs::getFoodPos(objPos &returnPos)
 {
     returnPos.setObjPos(foodPos.x, foodPos.y, foodPos.symbol);
 }
+

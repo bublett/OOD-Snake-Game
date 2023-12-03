@@ -5,6 +5,7 @@
 #include "Player.h"
 
 
+
 using namespace std;
 
 
@@ -48,6 +49,8 @@ int main(void)
 }
 
 
+
+
 void Initialize(void)
 {
     MacUILib_init();
@@ -63,6 +66,8 @@ void Initialize(void)
     tempPlayerPosList->getHeadElement(tempPlayerPos);
     Snake->generateFood(*tempPlayerPosList);            // Generate initial random food pos
 }
+
+
 
 
 void GetInput(void)
@@ -94,6 +99,8 @@ void GetInput(void)
 }
 
 
+
+
 void RunLogic(void)
 {
 
@@ -104,6 +111,8 @@ void RunLogic(void)
     Snake->clearInput();
 
 }
+
+
 
 
 void DrawScreen(void)
@@ -120,7 +129,6 @@ void DrawScreen(void)
 
     objPos foodPos;
     Snake->getFoodPos(foodPos);     // Gets food position
-
 
 
 
@@ -205,8 +213,6 @@ void DrawScreen(void)
     MacUILib_printf("Exit, Press: `\n");
 
 
-
-
     if(Snake->getLoseFlagStatus() == true || Snake->getExitFlagStatus() == true)
     {
         MacUILib_printf("Game Ended. You Scored: %d", Snake->getScore());
@@ -236,6 +242,7 @@ void CleanUp(void)
     delete Snake_player;
    
 }
+
 
 
 
