@@ -1,17 +1,14 @@
 #ifndef GAMEMECHS_H
 #define GAMEMECHS_H
 
-
 #include <cstdlib>
 #include <time.h>
-
 
 #include "objPos.h"
 #include "objPosArrayList.h"
 
 
 using namespace std;
-
 
 
 class GameMechs
@@ -55,14 +52,7 @@ class GameMechs
 
 
         void generateFood(objPosArrayList &playerBody);
-       
-        // Need to accept the player boady array list
-        // Go through each array list elkement to make sure they are all
-        // Blocked off from random food generation  
-
-
         void getFoodPos(objPos &returnPos);
-
 
 };
 

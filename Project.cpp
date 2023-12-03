@@ -5,16 +5,14 @@
 #include "Player.h"
 
 
-
 using namespace std;
-
 
 #define DELAY_CONST 100000
 
 
+
 GameMechs *Snake;
 Player *Snake_player;
-
 
 
 void Initialize(void);
@@ -26,13 +24,9 @@ void CleanUp(void);
 
 
 
-
 int main(void)
 {
-
-
     Initialize();
-
 
     while(Snake->getExitFlagStatus() == false)  
     {
@@ -42,12 +36,9 @@ int main(void)
         LoopDelay();
     }
 
-
     CleanUp();
 
-
 }
-
 
 
 
@@ -56,17 +47,14 @@ void Initialize(void)
     MacUILib_init();
     MacUILib_clearScreen();
 
-
     Snake = new GameMechs();
     Snake_player = new Player(Snake);  // Create an instance of player class
-
 
     objPosArrayList* tempPlayerPosList = Snake_player->getPlayerPos();  // Temp player pos list for initial random food
     objPos tempPlayerPos;
     tempPlayerPosList->getHeadElement(tempPlayerPos);
     Snake->generateFood(*tempPlayerPosList);            // Generate initial random food pos
 }
-
 
 
 
@@ -77,15 +65,12 @@ void GetInput(void)
         Snake->setInput(MacUILib_getChar());
     }
 
-
     //Debug-use key: Press 'c' to clear away current food and generate another random food
     if (Snake->getInput() == 'c')
     {
         Snake->clearInput(); // Clear current food
         objPosArrayList* tempPlayerPosList = Snake_player->getPlayerPos();
 
-
-       
         if (tempPlayerPosList->getSize() > 0) // Check if the player position list is not empty
         {
             objPos tempPlayerPos;
@@ -95,9 +80,7 @@ void GetInput(void)
        
     }
 
-
 }
-
 
 
 
@@ -105,32 +88,28 @@ void RunLogic(void)
 {
 
     Snake_player->updatePlayerDir(); // Call the method to update player direction based on input
-    Snake_player->movePlayer(); // Call the method to update player position on screen
-
-
-    Snake->clearInput();
+    Snake_player->movePlayer();      // Call the method to update player position on screen
 
 }
 
 
 
-
 void DrawScreen(void)
 {
-    MacUILib_clearScreen();
 
+    MacUILib_clearScreen();
 
     bool drawn;
 
-
     objPosArrayList* playerBody = Snake_player->getPlayerPos();
     objPos tempBody;
-
+    objPos headPos;
 
     objPos foodPos;
     Snake->getFoodPos(foodPos);     // Gets food position
 
 
+    // Drawing the Game Board and all Game features
 
     for(int j=0; j<Snake->getBoardSizeY(); j++)
     {
@@ -138,11 +117,9 @@ void DrawScreen(void)
         {
             drawn = false;     // To prevent drawing anything at the players position
 
-
             for(int k=0; k<playerBody->getSize(); k++)    // Iterate through every element in the player body list
             {
                 playerBody->getElement(tempBody, k);
-
 
                 if(tempBody.x == i && tempBody.y == j)
                 {
@@ -152,7 +129,6 @@ void DrawScreen(void)
                 }
             }
 
-
             if(drawn) continue; //If player body was drawn, don't draw anything else in the same iteration
 
 
@@ -161,61 +137,71 @@ void DrawScreen(void)
                 MacUILib_printf("#");
             }
 
-
             else if (j == foodPos.y && i == foodPos.x)  // Print food symbol
             {
                 MacUILib_printf("%c", foodPos.symbol);
             }
 
-
             else                                // Check if not on border
             {
                 MacUILib_printf(" ");
             }
-
-
-
-
         }
+
         MacUILib_printf("\n");
        
     }
 
-
-    MacUILib_printf("Score: %d\n", Snake->getScore());
-
-
+    MacUILib_printf("Score: %d\n", Snake->getScore());                                          // Displays Current Score
+    MacUILib_printf("\n");
     MacUILib_printf("======== DEBUG MESSAGE ========\n");
-
-
-    MacUILib_printf("Board Size: %d X %d\n", Snake->getBoardSizeX(),Snake->getBoardSizeY());
-
-
-    MacUILib_printf("Player Input: %c\n", Snake->getInput());    // Debug msg for current input keys
-
-
-    MacUILib_printf("Player Position:\n");
-
-
-    for(int l = 0; l<playerBody->getSize();l++)
+    MacUILib_printf("Board Size: %d X %d\n", Snake->getBoardSizeX(),Snake->getBoardSizeY());    // Displayes Game Board Size 
+    
+    
+    switch (Snake_player->getPlayerDirection())     // Displays Player Direction
     {
-        playerBody->getElement(tempBody,l);
-        MacUILib_printf("<%d,%d> ", tempBody.x,tempBody.y);
+        case Player::UP:
+            MacUILib_printf("Player Direction: U\n");
+            break;
+
+        case Player::DOWN:
+            MacUILib_printf("Player Direction: D\n");
+            break;
+
+        case Player::LEFT:
+            MacUILib_printf("Player Direction: L\n");
+            break;
+
+        case Player::RIGHT:
+            MacUILib_printf("Player Direction: R\n");
+            break;
+
+        case Player::STOP:
+        default:
+            MacUILib_printf("Player Direction: S\n");
+            break;
     }
+    
+
+    playerBody->getHeadElement(headPos);
+    MacUILib_printf("Player Head Position: %d, %d\n", headPos.x, headPos.y);     // Displays Snake Head Position
+    MacUILib_printf("To Exit, Press: `\n");
 
 
-    MacUILib_printf("\nFood Input: %d, %d\n", foodPos.x, foodPos.y);  //Prints current Food position
-
-
-    MacUILib_printf("To Clear Food & Generate New Food, Press: 'c'\n"); //Debug message to clear and generate new food
-
-
-    MacUILib_printf("Exit, Press: `\n");
-
-
-    if(Snake->getLoseFlagStatus() == true || Snake->getExitFlagStatus() == true)
+    if (Snake->getExitFlagStatus() == true)     // Displays End Game State
     {
-        MacUILib_printf("Game Ended. You Scored: %d", Snake->getScore());
+        MacUILib_clearScreen();
+
+
+        if(Snake->getInput() == '`')
+        {
+            MacUILib_printf("Game Ended. \nYou Scored: %d Points", Snake->getScore());
+        }
+        
+        else if (Snake_player->checkSelfCollision())
+        {
+            MacUILib_printf("YOU LOST :(\nYou Scored: %d Points", Snake->getScore());
+        }
     }
 
 
@@ -232,7 +218,6 @@ void LoopDelay(void)
 
 void CleanUp(void)
 {
-    MacUILib_clearScreen();    
  
     MacUILib_uninit();
 
