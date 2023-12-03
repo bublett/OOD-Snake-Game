@@ -114,23 +114,40 @@ void GameMechs::incrementScore()
 }
 
 
-void GameMechs::generateFood(objPos blockOff)
+void GameMechs::generateFood(objPosArrayList &playerBody)
 {
-    // Generate random x and y coord, and make sure they are NOT boarder or blockOff pos
-    
+   
     int random_x, random_y;
+    bool overlap;
+
 
     do
     {
         random_x = (rand() % (boardSizeX - 2)) + 1;     //generate random x-coord within boarder
         random_y = (rand() % (boardSizeY - 2)) + 1;     //generate random y-coord within boarder
 
-    } while (foodPos.isPosEqual(&blockOff));
 
-    foodPos.setObjPos(random_x, random_y, 'o');     //Sets foodPos based on random coordinates 
+        overlap = false;
+        for (int i = 0; i < playerBody.getSize(); i++)
+        {
+            objPos tempBody;
+            playerBody.getElement(tempBody, i);
+
+
+            if (tempBody.x == random_x && tempBody.y == random_y)   // Check if the new food position overlaps
+            {                                                       // with any element in the player's body
+                overlap = true;
+                break;
+            }
+        }
+
+
+    } while (overlap);
+
+    foodPos.setObjPos(random_x, random_y, 'o');     //Sets foodPos based on random coordinates
+
 
 }
-
 
 
 void GameMechs::getFoodPos(objPos &returnPos)

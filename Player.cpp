@@ -1,36 +1,45 @@
 #include "Player.h"
 
 
+
 Player::Player(GameMechs* thisGMRef)
 {
+
+
     mainGameMechsRef = thisGMRef;
     myDir = STOP;
 
 
-    // more actions to be included
-    playerPos.setObjPos(14, 7, '*');     //Sets initial player position on game board
+    objPos startPos; //Declaring starting position as an objPos
+    startPos.setObjPos(14,7,'*');
+
+
+    playerPosList = new objPosArrayList();   //objPos player is now of type objPosArrayList
+    playerPosList->insertHead(startPos);     //The initial head of the list is the start pos.
    
 }
+
 
 
 Player::~Player()
 {
     // delete any heap members here
+    delete playerPosList;
 }
 
 
-void Player::getPlayerPos(objPos &returnPos)
+
+
+objPosArrayList* Player::getPlayerPos()
 {
-    returnPos.setObjPos(playerPos.x, playerPos.y, playerPos.symbol);    // Get player pos, and returns pos of my own player back to caller
-
-    // return the reference to the playerPos arrray list
- 
+    return playerPosList; //Return the reference of the player pos list
 }
+
+
 
 
 void Player::updatePlayerDir()
-{
-    // PPA3 input processing logic    
+{  
 
 
     switch(mainGameMechsRef->getInput())    // Get input from the GameMechs class
@@ -78,60 +87,88 @@ void Player::updatePlayerDir()
 }
 
 
+
+
 void Player::movePlayer()
 {
-    // PPA3 Finite State Machine logic
+
 
     //Update Player direction/location
+
+
+    objPos currHead; // Holds info on current head
+    playerPosList->getHeadElement(currHead);
+   
     switch(myDir)
     {
         case STOP:
         default:
             break;
 
-
         case LEFT:
-            playerPos.x--;  
-            //moveCount++;
+            currHead.x--;
             break;
-
 
         case RIGHT:
-            playerPos.x++;
-            //moveCount++;
+            currHead.x++;
             break;
-
 
         case UP:
-            playerPos.y--;
-            //moveCount++;
+            currHead.y--;
             break;
-
 
         case DOWN:
-            playerPos.y++;
-            //moveCount++;
+            currHead.y++;
             break;
     }
+
 
 
     // Border Wraparound
-    if (playerPos.y == 0)
+    if (currHead.y == 0)
     {
-        playerPos.y = (mainGameMechsRef->getBoardSizeY())-2;       //Gets Y boarder size for GameMechs class
+        currHead.y = (mainGameMechsRef->getBoardSizeY())-2;       //Gets Y boarder size for GameMechs class
     }
-    else if (playerPos.y == (mainGameMechsRef->getBoardSizeY())-1)
+    else if (currHead.y == (mainGameMechsRef->getBoardSizeY())-1)
     {
-        playerPos.y = 1;
+        currHead.y = 1;
     }
    
-    if (playerPos.x == 0)
+    if (currHead.x == 0)
     {
-        playerPos.x = (mainGameMechsRef->getBoardSizeX())-2;    //Gets X boarder size for GameMechs class
+        currHead.x = (mainGameMechsRef->getBoardSizeX())-2;    //Gets X boarder size for GameMechs class
     }
-    else if (playerPos.x == (mainGameMechsRef->getBoardSizeX())-1)
+    else if (currHead.x == (mainGameMechsRef->getBoardSizeX())-1)
     {
-        playerPos.x = 1;
+        currHead.x = 1;
     }
 
+
+    playerPosList->insertHead(currHead);    //Inserts adjusted current position back to head
+    playerPosList->removeTail();            //Removes one from tail to visualize movement of snake
+   
+
+
+    //Collision Detection with Food
+    objPos foodPos;
+    mainGameMechsRef->getFoodPos(foodPos);
+
+
+    if (currHead.x == foodPos.x && currHead.y == foodPos.y)
+    {
+        playerPosList->insertHead(currHead);      // Food consumed: Insert the head without removing the tail
+
+
+        mainGameMechsRef->incrementScore();               // Increases score when snake collides with food
+        mainGameMechsRef->generateFood(*playerPosList);   // Call generateFood to create a new food on the game board
+    }
+   
+    else
+    {
+        playerPosList->removeTail();    // No food consumption: remove tail
+    }
+
+
+    playerPosList->insertHead(currHead);    // Ensures snake correctly displayed after food consumption
 }
+

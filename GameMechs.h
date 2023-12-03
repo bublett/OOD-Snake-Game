@@ -9,21 +9,11 @@
 #include "objPos.h"
 #include "objPosArrayList.h"
 
-
 using namespace std;
-
 
 
 class GameMechs
 {
-    // Construct the remaining declaration from the project manual.
-
-
-    // Only some sample members are included here
-
-
-    // You will include more data members and member functions to complete your design.
-
 
     private:
         char input;
@@ -47,6 +37,7 @@ class GameMechs
         bool getLoseFlagStatus();
         void setExitTrue();
         void setExitFalse();
+        void setLoseFlag();
 
 
         int getScore();
@@ -62,7 +53,13 @@ class GameMechs
         int getBoardSizeY();
 
 
-        void generateFood(objPos blockOff);
+        void generateFood(objPosArrayList &playerBody);
+       
+        // Need to accept the player boady array list
+        // Go through each array list elkement to make sure they are all
+        // Blocked off from random food generation  
+
+
         void getFoodPos(objPos &returnPos);
 
 
