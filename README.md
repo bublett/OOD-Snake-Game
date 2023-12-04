@@ -15,7 +15,7 @@ StudentID: [400411765]
 
 Student #2
 
-Section: [Insert your lab section]
+Section: [L03]
 
 MacID: [armanazb]
 
