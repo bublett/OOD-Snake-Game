@@ -10,9 +10,10 @@ using namespace std;
 #define DELAY_CONST 100000
 
 
+// Global Scope
 
-GameMechs *Snake;
-Player *Snake_player;
+GameMechs *Snake;   // Pointer to Snake Game Mechanics Class
+Player *Snake_player;   // Pointer to Player object 
 
 
 void Initialize(void);
@@ -65,21 +66,6 @@ void GetInput(void)
         Snake->setInput(MacUILib_getChar());
     }
 
-    //Debug-use key: Press 'c' to clear away current food and generate another random food
-    if (Snake->getInput() == 'c')
-    {
-        Snake->clearInput(); // Clear current food
-        objPosArrayList* tempPlayerPosList = Snake_player->getPlayerPos();
-
-        if (tempPlayerPosList->getSize() > 0) // Check if the player position list is not empty
-        {
-            objPos tempPlayerPos;
-            tempPlayerPosList->getHeadElement(tempPlayerPos);
-            Snake->generateFood(*tempPlayerPosList);  // Pass the reference player pos list to the player's body to Generate new Food
-        }
-       
-    }
-
 }
 
 
@@ -111,17 +97,17 @@ void DrawScreen(void)
 
     // Drawing the Game Board and all Game features
 
-    for(int j=0; j<Snake->getBoardSizeY(); j++)
+    for (int j=0; j<Snake->getBoardSizeY(); j++)
     {
-        for(int i=0; i<Snake->getBoardSizeX(); i++)
+        for (int i=0; i<Snake->getBoardSizeX(); i++)
         {
             drawn = false;     // To prevent drawing anything at the players position
 
-            for(int k=0; k<playerBody->getSize(); k++)    // Iterate through every element in the player body list
+            for (int k=0; k<playerBody->getSize(); k++)    // Iterate through every element in the player body list
             {
                 playerBody->getElement(tempBody, k);
 
-                if(tempBody.x == i && tempBody.y == j)
+                if (tempBody.x == i && tempBody.y == j)
                 {
                     MacUILib_printf("%c", tempBody.symbol);
                     drawn = true;
@@ -129,10 +115,10 @@ void DrawScreen(void)
                 }
             }
 
-            if(drawn) continue; //If player body was drawn, don't draw anything else in the same iteration
+            if(drawn) continue;     // If player body was drawn, don't draw anything else in the same iteration
 
 
-            if(j==0 || j==Snake->getBoardSizeY()-1 || i==0 || i==Snake->getBoardSizeX()-1)   // Checks if on border
+            if (j==0 || j==Snake->getBoardSizeY()-1 || i==0 || i==Snake->getBoardSizeX()-1)   // Checks if on border
             {
                 MacUILib_printf("#");
             }
@@ -142,9 +128,9 @@ void DrawScreen(void)
                 MacUILib_printf("%c", foodPos.symbol);
             }
 
-            else                                // Check if not on border
+            else                                
             {
-                MacUILib_printf(" ");
+                MacUILib_printf(" ");    // Print White Spaces 
             }
         }
 
@@ -184,7 +170,8 @@ void DrawScreen(void)
     
 
     playerBody->getHeadElement(headPos);
-    MacUILib_printf("Player Head Position: %d, %d\n", headPos.x, headPos.y);     // Displays Snake Head Position
+    MacUILib_printf("Player Position: %d, %d\n", headPos.x, headPos.y);     // Displays Snake Head Position
+    MacUILib_printf("\n");
     MacUILib_printf("To Exit, Press: `\n");
 
 

@@ -15,7 +15,7 @@ GameMechs::GameMechs()
     boardSizeY = 15;
 
     srand(time(NULL));
-    foodPos.setObjPos(-1, -1, 'o');    //Initialize foodPos outside of the game board (not displayed)
+    foodPos.setObjPos(-1, -1, 'O');    //Initialize foodPos outside of the game board (not displayed)
 }
 
 
@@ -32,14 +32,7 @@ GameMechs::GameMechs(int boardX, int boardY)
     boardY = boardSizeY;
 
     srand(time(NULL));    
-    foodPos.setObjPos(-1, -1, 'o');
-}
-
-
-// do you need a destructor?
-GameMechs::~GameMechs()
-{
-    //Delete heap memebers
+    foodPos.setObjPos(-1, -1, 'O');
 }
 
 
@@ -145,7 +138,7 @@ void GameMechs::generateFood(objPosArrayList &playerBody)
     } while (overlap);
 
 
-    foodPos.setObjPos(random_x, random_y, 'o');     //Sets foodPos based on random coordinates
+    foodPos.setObjPos(random_x, random_y, 'O');     //Sets foodPos based on random coordinates
 
 
 }
