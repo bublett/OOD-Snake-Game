@@ -179,7 +179,6 @@ void DrawScreen(void)
     {
         MacUILib_clearScreen();
 
-
         if(Snake->getInput() == '`')
         {
             MacUILib_printf("Game Ended. \nYou Scored: %d Points", Snake->getScore());
